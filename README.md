@@ -2,11 +2,9 @@
 
 This is my PyTorch implementation of DQN, DDQN and Dueling DQN to solve Atari games including PongNoFrameskip-v4, BreakoutNoFrameskip-v4 and BoxingNoFrameskip-v4.
 
-<center>
-    <img src="./img/pong.gif">
-    <img src="./img/breakout.gif">
-    <img src="./img/boxing.gif">
-</center>
+<div align=center>
+<img src="./img/pong.gif"><img src="./img/breakout.gif"><img src="./img/boxing.gif">
+</div>
 
 ## 1. Install
 
@@ -41,16 +39,14 @@ A log file, models, videos, loss and reward pictures will be saved to correspond
 
 After training, the program will generate loss and reward pictures which look like: (pong, dueling dqn + ddqn)
 
-<center>
-    <img src="./img/loss.png" style="zoom:50%;">
-    <img src="./img/reward.png" style="zoom:50%;">
-</center>
+<div align=center>
+<img src="./img/loss.png" width="400px"><img src="./img/reward.png" width="400px">
+</div>
 I also compare different models in each game except Pong.
 
-<center>
-    <img src="./img/cmpbreakout.png" style="zoom:50%;">
-    <img src="./img/cmpboxing.png" style="zoom:50%;">
-</center>
+<div align=center>
+<img src="./img/cmpbreakout.png" width="400px"><img src="./img/cmpboxing.png" width="400px">
+</div>
 
 - Only double dueling dqn seems to converge in Pong (Even sometimes it doesn't converge either). I think it is due to the fact that in Pong most transitions have reward 0, so it is hard for the agent to sample some meaningful transitions. Priority experience replay (PER) may be a great solution to it. 
 - Models that do relatively better in Breakout do relatively worse in Boxing.
@@ -61,13 +57,9 @@ I also compare different models in each game except Pong.
 
 - First `WARMUP` steps, the agent will randomly choose action and warm up replay buffer.
 
-- Every epoch, the agent will play the game once. Every step, it will choose action according to the policy network ($$\epsilon$$-greedy), store the transition ($$s_t,a_t,r_t,s_{t+1}$$) to the buffer and sample a batch of transitions to update the policy network (TD methods).
-  $$
-  DQN:Q(s_t,a_t)\leftrightarrow r_t+\gamma*\max_a Q'(s_{i+1},a)\\
-  DDQN:Q(s_t,a_t)\leftrightarrow r_t+\gamma*Q'(s_{t+1},\mathop{\arg\max}\limits_{a}Q(s_{t+1},a))
-  $$
+- Every epoch, the agent will play the game once. Every step, it will choose action according to the policy network ($\epsilon$-greedy), store the transition ($s_t,a_t,r_t,s_{t+1}$) to the buffer and sample a batch of transitions to update the policy network (TD methods). $$DQN:Q(s_t,a_t)\leftrightarrow r_t+\gamma*\max_a Q'(s_{i+1},a)$$ $$DDQN:Q(s_t,a_t)\leftrightarrow r_t+\gamma*Q'(s_{t+1},\mathop{\arg\max}\limits_{a}Q(s_{t+1},a))$$
 
-- Every fixed steps, $$\epsilon$$ will decay and the target network will be set to be the same as the policy network.
+- Every fixed steps, $\epsilon$ will decay and the target network will be set to be the same as the policy network.
 
 **Tricks**
 
@@ -86,5 +78,5 @@ I also compare different models in each game except Pong.
 
 **Others**
 
-With respect to some hyperparameters such as the decaying speed of epsilon, replay buffer's size and update target network frequency, I have tried a lot of different combinations when writing the code, but I think they actually don't matter much. You can find more experiment results from others' experiment [here](https://github.com/AdrianHsu/breakout-Deep-Q-Network).
+With respect to some hyperparameters such as the decaying speed of epsilon, replay buffer's size, update target network frequency and `WARMUP` steps, I have tried a lot of different combinations when writing the code, but I think they actually don't matter much. You can find more experiment results from others' experiment [here](https://github.com/AdrianHsu/breakout-Deep-Q-Network).
 
